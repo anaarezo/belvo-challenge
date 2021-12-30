@@ -1,17 +1,28 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { BELVO_URL } from "../envs";
 
-export const belvoInstance = axios.create({
+export let belvoInstance = axios.create({
   baseURL: BELVO_URL,
   headers: {
     "content-type": "application/json",
   },
-  timeout: 12000,
+  timeout: 30000,
 });
+
+export const authenticate = (token: string): void => {
+  belvoInstance = axios.create({
+    baseURL: BELVO_URL,
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    timeout: 30000,
+  });
+};
 
 belvoInstance.interceptors.request.use((req: AxiosRequestConfig) => {
   const info = `${req.method?.toUpperCase()} ${req.baseURL}${req.url}`;
-  console.log(info);
+  console.log("INTERCEPTORS", info, req);
   return req;
 });
 

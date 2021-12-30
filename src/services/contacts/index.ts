@@ -1,21 +1,13 @@
 import { belvoInstance } from "../index";
-import { belvoAuthInstance } from "../auth";
 
-export interface IContactsResponse {
+export interface IContactResponse {
   email: string;
   name: string;
 }
 
-const getContacts = async (): Promise<IContactsResponse> => {
-  const auth = await belvoAuthInstance.post(
-    "token?grant_type=client_credentials"
-  );
-  const { data } = await belvoInstance.get(`/contacts`, {
-    headers: {
-      Authorization: `Bearer ${auth.data.access_token}`,
-    },
-  });
-
+const getContacts = async (): Promise<IContactResponse[]> => {
+  const { data } = await belvoInstance.get(`/contacts`);
+  console.log("Contacts", data);
   return data;
 };
 

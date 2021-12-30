@@ -1,5 +1,4 @@
 import { belvoInstance } from "../index";
-import { belvoAuthInstance } from "../auth";
 
 export interface IWalletResponse {
   email: string;
@@ -20,14 +19,8 @@ export interface IWalletResponse {
 }
 
 const getWallet = async (): Promise<IWalletResponse> => {
-  const auth = await belvoAuthInstance.post(
-    "token?grant_type=client_credentials"
-  );
-  const { data } = await belvoInstance.get(`/wallet`, {
-    headers: {
-      Authorization: `Bearer ${auth.data.access_token}`,
-    },
-  });
+  const { data } = await belvoInstance.get(`/wallet`);
+  console.log("getWallet", data);
 
   return data;
 };

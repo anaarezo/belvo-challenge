@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
+import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -7,14 +8,59 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Grid from "@mui/material/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
+import {
+  authenticate,
+  getContacts,
+  getWallet,
+  postLogin,
+} from "../../services";
 import { Header } from "../../components";
 import * as S from "./styles";
 
 const Login = () => {
+  const [inputUserVal, setInputUserVal] = useState<string>("");
+  const [inputPassVal, setInputPassVal] = useState<string>("");
+  const [enableAlert, setEnableAlert] = useState<boolean>(false);
+
+  const handleSignIn = () => {
+    console.log("STATE: START LOG IN");
+    const loginParams = {
+      username: inputUserVal,
+      password: inputPassVal,
+    };
+    postLogin(loginParams)
+      .then((response) => {
+        console.log("STATE: LOG IN SUCCESS");
+        authenticate(response.access_token);
+
+        //VAI PRA PROXIMA TELA FILHAO
+        getWallet();
+        getContacts();
+      })
+      .catch((err) => {
+        console.log("STATE: LOG IN FAILED", err);
+      });
+
+    console.log("entrou signin");
+  };
+
+  const handleSubmit = () => {
+    if (inputUserVal.length <= 0 || inputPassVal.length <= 0) {
+      setEnableAlert(true);
+    } else {
+      setEnableAlert(false);
+      handleSignIn();
+    }
+    return;
+  };
+
+  const renderAlert = enableAlert ? (
+    <Alert severity="error">*Required fields!</Alert>
+  ) : null;
+
   return (
     <>
       <Header />
@@ -37,36 +83,43 @@ const Login = () => {
             <Grid item xs={12} lg={4}>
               <Box sx={{ marginTop: "200px" }}>
                 <Paper variant="outlined" square>
-                  <Box sx={{ m: 3 }}>
-                    <FormControl margin="normal" required fullWidth>
-                      <InputLabel htmlFor="email">Username</InputLabel>
-                      <Input
-                        id="email"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                      />
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                      <InputLabel htmlFor="password">Password</InputLabel>
-                      <Input
-                        name="password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                      />
-                    </FormControl>
-                    <Box sx={{ mt: 3, mb: 5 }}>
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                      >
-                        Sign in
-                      </Button>
+                  <form>
+                    <Box sx={{ m: 3 }}>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Username</InputLabel>
+                        <Input
+                          id="email"
+                          name="email"
+                          autoComplete="email"
+                          autoFocus
+                          onChange={(e) => setInputUserVal(e.target.value)}
+                        />
+                      </FormControl>
+                      <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input
+                          name="password"
+                          type="password"
+                          id="password"
+                          autoComplete="current-password"
+                          onChange={(e) => setInputPassVal(e.target.value)}
+                        />
+                      </FormControl>
+
+                      {renderAlert}
+
+                      <Box sx={{ mt: 3, mb: 5 }}>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          onClick={handleSubmit}
+                        >
+                          Sign in
+                        </Button>
+                      </Box>
                     </Box>
-                  </Box>
+                  </form>
                 </Paper>
               </Box>
             </Grid>

@@ -8,8 +8,6 @@ export const Container = styled.div`
   align-items: center;
   border-width: 1px;
   display: block;
-  position: absolute;
-  z-index: 1;
   background-color: #ffffff;
   height: 76px;
   border-bottom: 1px solid #e2e6e9;

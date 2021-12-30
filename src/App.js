@@ -4,7 +4,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
 
 import { v1 } from "./theme";
-import { Contacts, Home, Login, NotFound, Wallet } from "./pages";
+import { Contacts, Login, NotFound, Wallet } from "./pages";
 
 export default function App() {
   return (

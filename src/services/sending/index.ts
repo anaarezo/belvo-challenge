@@ -1,20 +1,18 @@
 import { belvoInstance } from "../index";
-import { belvoAuthInstance } from "../auth";
 
 export interface ISendingRequest {
-  username: string;
-  password: string;
+  description: string;
+  amount: number;
+  currency: string;
+  receiver: string;
 }
 
-const postSending = async (): Promise<ISendingRequest> => {
-  const auth = await belvoAuthInstance.post(
-    "token?grant_type=client_credentials"
-  );
-  const { data } = await belvoInstance.post(`/wallet/send`, {
-    headers: {
-      Authorization: `Bearer ${auth.data.access_token}`,
-    },
-  });
+export interface ISendingResponse {}
+
+const postSending = async (
+  params: ISendingRequest
+): Promise<ISendingResponse> => {
+  const { data } = await belvoInstance.post(`/wallet/send`, params);
 
   return data;
 };

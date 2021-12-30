@@ -63,8 +63,7 @@ yarn start
 ```
 
 4 - Your browser will be open automatically, if not open your browser and type:
-
-- http://localhost:3000/
+`http://localhost:3000/`
 
 5 - To run tests type:
 
@@ -74,7 +73,7 @@ yarn tests
 
 ## Comments:
 
-- I usually do not commit to main branch, I use trunk-based or git flow.
+-
 
 ## Author
 
