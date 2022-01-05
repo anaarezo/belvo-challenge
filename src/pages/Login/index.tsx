@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
@@ -11,40 +12,31 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import {
-  authenticate,
-  getContacts,
-  getWallet,
-  postLogin,
-} from "../../services";
+import { authenticate, postLogin } from "../../services";
 import { Header } from "../../components";
 import * as S from "./styles";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const handleOnClick = () => navigate("/wallet");
+
   const [inputUserVal, setInputUserVal] = useState<string>("");
   const [inputPassVal, setInputPassVal] = useState<string>("");
   const [enableAlert, setEnableAlert] = useState<boolean>(false);
 
   const handleSignIn = () => {
-    console.log("STATE: START LOG IN");
     const loginParams = {
       username: inputUserVal,
       password: inputPassVal,
     };
     postLogin(loginParams)
       .then((response) => {
-        console.log("STATE: LOG IN SUCCESS");
         authenticate(response.access_token);
-
-        //VAI PRA PROXIMA TELA FILHAO
-        getWallet();
-        getContacts();
+        handleOnClick();
       })
       .catch((err) => {
-        console.log("STATE: LOG IN FAILED", err);
+        setEnableAlert(true);
       });
-
-    console.log("entrou signin");
   };
 
   const handleSubmit = () => {
@@ -58,7 +50,7 @@ const Login = () => {
   };
 
   const renderAlert = enableAlert ? (
-    <Alert severity="error">*Required fields!</Alert>
+    <Alert severity="error">Error trying sign in!</Alert>
   ) : null;
 
   return (

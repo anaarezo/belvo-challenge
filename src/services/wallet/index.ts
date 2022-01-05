@@ -13,8 +13,9 @@ export interface IWalletResponse {
     }
   ];
   balance: {
-    property1: number;
-    property2: number;
+    BTC: number;
+    DOGE: number;
+    ETH: number;
   };
 }
 

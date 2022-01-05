@@ -6,17 +6,22 @@ import { Grid } from "@mui/material";
 
 import * as S from "./styles";
 
-const BasicCard = () => {
+interface IBasicCard {
+  balanceCrypto: any;
+}
+
+const BasicCard = ({ balanceCrypto }: IBasicCard) => {
+  console.log("balanceCrypto", balanceCrypto); //TODO: Put mask and Icon per crypto
   return (
     <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
       <Grid item xs={12} md={4}>
         <S.Item>
           <AttachMoney sx={{ height: 38, width: 38 }} />
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Balance:
+            ETH:
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            20,00
+            {balanceCrypto?.ETH}
           </Typography>
         </S.Item>
       </Grid>
@@ -25,10 +30,10 @@ const BasicCard = () => {
         <S.Item>
           <AttachMoney sx={{ height: 38, width: 38 }} />
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Property 1:
+            BTC:
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            20,00
+            {balanceCrypto?.BTC}
           </Typography>
         </S.Item>
       </Grid>
@@ -37,10 +42,10 @@ const BasicCard = () => {
         <S.Item>
           <AttachMoney sx={{ height: 38, width: 38 }} />
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Property 2:
+            DOGE:
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            20,00
+            {balanceCrypto?.DOGE}
           </Typography>
         </S.Item>
       </Grid>

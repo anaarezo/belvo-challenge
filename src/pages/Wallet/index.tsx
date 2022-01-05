@@ -1,131 +1,139 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import Container from "@mui/material/Container";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import { alpha } from "@mui/material/styles";
 
-import { Header } from "../../components";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import Toolbar from "@mui/material/Toolbar";
+
+import {
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  Alert,
+  Chip,
+} from "@mui/material";
+
+import { BasicCard, DrawerMenu } from "../../components";
+import { renderColorStatus } from "../../utils";
 import * as S from "./styles";
-import BasicCard from "../../components/BasicCard";
 
-let id = 0;
-function createData(
-  description: any,
-  amount: any,
-  currency: any,
-  sender: any,
-  receiver: any,
-  status: any
-) {
-  id += 1;
-  return { id, description, amount, currency, sender, receiver, status };
+import { getWallet } from "../../services";
+
+interface Props {
+  window?: () => Window;
 }
 
-// {
-//   "email": "user@example.com",
-//   "transactions": [
-//     {
-//       "description": "string",
-//       "amount": 0,
-//       "currency": "ETH",
-//       "sender": "user@example.com",
-//       "receiver": "user@example.com",
-//       "status": "Pending"
-//     }
-//   ],
-//   "balance": {
-//     "property1": 0,
-//     "property2": 0
-//   }
-// }
+const Wallet = (props: Props) => {
+  const navigate = useNavigate();
+  const [transactions, setTransactions] = useState<any>();
+  const [cryptoBalance, setCryptoBalance] = useState<any>();
 
-const transactions = [
-  createData(
-    "transaction 1",
-    "159,00",
-    "ETH",
-    "mail**@gmail.com",
-    "mail**@gmail.com",
-    "Pending"
-  ),
-  createData(
-    "transaction 1",
-    "237,00",
-    "ETH",
-    "mail**@gmail.com",
-    "mail**@gmail.com",
-    "Pending"
-  ),
-  createData(
-    "transaction 1",
-    "262,00",
-    "DOGE",
-    "mail**@gmail.com",
-    "mail**@gmail.com",
-    "Pending"
-  ),
-  createData(
-    "transaction 1",
-    "305,00",
-    "BTC",
-    "mail**@gmail.com",
-    "mail**@gmail.com",
-    "Pending"
-  ),
-  createData(
-    "transaction 1",
-    "356,00",
-    "ETH",
-    "mail**@gmail.com",
-    "mail**@gmail.com",
-    "Pending"
-  ),
-];
+  const handleOnError = useCallback(
+    (navigateTo: string) => {
+      navigate(navigateTo);
+    },
+    [navigate]
+  );
 
-const Wallet = () => {
+  useEffect(() => {
+    if (!transactions) {
+      //TODO: Should be inside a CustomHook or another loader.ts file
+      getWallet()
+        .then((response) => {
+          setTransactions(response?.transactions);
+          setCryptoBalance(response?.balance);
+          console.log("[Info] - GetWallet: ", response);
+        })
+        .catch((err) => {
+          handleOnError("/login");
+          console.log("[Error] - GetWallet: ", err);
+        });
+    }
+  }, [transactions, handleOnError]);
+
+  //TODO: Should create a external JSX.component
+  const renderTransactions = () => {
+    if (!transactions || transactions >= 0) {
+      return (
+        <TableRow>
+          <TableCell component="th" scope="row" colSpan={6}>
+            <Alert
+              severity="info"
+              sx={{
+                my: 3,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              You don't have any transactions!
+            </Alert>
+          </TableCell>
+        </TableRow>
+      );
+    } else {
+      return transactions?.map((row: any, index: number) => (
+        <TableRow key={index}>
+          <TableCell component="th" scope="row">
+            {row.description}
+          </TableCell>
+          <TableCell>{row.amount}</TableCell>
+          <TableCell>{row.currency}</TableCell>
+          <TableCell>{row.sender}</TableCell>
+          <TableCell>{row.receiver}</TableCell>
+          <TableCell>
+            <Chip label={row.status} color={renderColorStatus(row.status)} />
+          </TableCell>
+        </TableRow>
+      ));
+    }
+  };
+
   return (
-    <>
-      <Header />
-      <S.Container>
-        <Container maxWidth="lg">
-          <BasicCard />
-          <Paper>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Currency</TableCell>
-                  <TableCell>From:</TableCell>
-                  <TableCell className="hidden-xs">To:</TableCell>
-                  <TableCell>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactions.map((row: any) => {
-                  return (
-                    <TableRow key={row.id}>
-                      <TableCell component="th" scope="row">
-                        {row.description}
-                      </TableCell>
-                      <TableCell>{row.amount}</TableCell>
-                      <TableCell>{row.currency}</TableCell>
-                      <TableCell>{row.sender}</TableCell>
-                      <TableCell>{row.receiver}</TableCell>
-                      <TableCell>{row.status}</TableCell>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
+      }}
+    >
+      <CssBaseline />
+
+      <DrawerMenu />
+
+      <Box component="main">
+        <Toolbar />
+        <S.Content>
+          <Container maxWidth="lg">
+            <BasicCard balanceCrypto={cryptoBalance} />
+            <Paper>
+              <S.Wrap>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Amount</TableCell>
+                      <TableCell>Currency</TableCell>
+                      <TableCell>From:</TableCell>
+                      <TableCell className="hidden-xs">To:</TableCell>
+                      <TableCell>Status</TableCell>
                     </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Container>
-      </S.Container>
-    </>
+                  </TableHead>
+                  <TableBody>{renderTransactions()}</TableBody>
+                </Table>
+              </S.Wrap>
+            </Paper>
+          </Container>
+        </S.Content>
+      </Box>
+    </Box>
   );
 };
 
