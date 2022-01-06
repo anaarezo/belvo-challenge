@@ -11,6 +11,7 @@ Evaluate general front end development skills and capabilities.
 - [Architecture](#architecture)
 - [Built With](#built-with)
 - [Installation](#installation)
+- [Comments](#comments)
 - [Author](#author)
 
 ## Architecture
