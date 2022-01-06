@@ -1,27 +1,27 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
+import {
+  AppBar,
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItemText,
+  ListItemIcon,
+  Toolbar,
+  Button,
+} from "@mui/material";
+
 import IconButton from "@mui/material/IconButton";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-
-import Paid from "@mui/icons-material/Paid";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-
+import Paid from "@mui/icons-material/Paid";
 import SendIcon from "@mui/icons-material/Send";
 
-const drawerWidth = 240;
+import * as S from "./styles";
+
+const DRAWER_WIDTH = 240;
 
 interface Props {
   window?: () => Window;
@@ -29,7 +29,12 @@ interface Props {
 
 const DrawerMenu = (props: Props) => {
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const handleGoToTranfer = () => navigate("/transfer");
+  const handleGoToRequest = () => navigate("/receive");
+  const handleGoToWallet = () => navigate("/wallet");
+
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -40,24 +45,25 @@ const DrawerMenu = (props: Props) => {
       <Toolbar />
       <Divider />
       <List>
-        <ListItem button>
+        <Button onClick={handleGoToWallet}>
           <ListItemIcon>
             <Paid />
           </ListItemIcon>
           <ListItemText primary="Wallet" />
-        </ListItem>
-        <ListItem button>
+        </Button>
+
+        <Button onClick={handleGoToTranfer}>
           <ListItemIcon>
             <SendIcon />
           </ListItemIcon>
           <ListItemText primary="Transfer" />
-        </ListItem>
-        <ListItem button>
+        </Button>
+        <Button onClick={handleGoToRequest}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="Request" />
-        </ListItem>
+        </Button>
       </List>
     </div>
   );
@@ -68,10 +74,11 @@ const DrawerMenu = (props: Props) => {
   return (
     <>
       <AppBar
+        style={{ background: "#0663f9" }}
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          ml: { sm: `${DRAWER_WIDTH}px` },
         }}
       >
         <Toolbar>
@@ -82,16 +89,24 @@ const DrawerMenu = (props: Props) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon color="inherit" />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Cryptocurrency Transactions
-          </Typography>
+
+          <a href="/" title="belvo">
+            <Box
+              sx={{
+                width: 83,
+                height: 24,
+              }}
+            >
+              <S.Logo />
+            </Box>
+          </a>
         </Toolbar>
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
         <Drawer
@@ -106,7 +121,7 @@ const DrawerMenu = (props: Props) => {
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: DRAWER_WIDTH,
             },
           }}
         >
@@ -118,7 +133,7 @@ const DrawerMenu = (props: Props) => {
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: DRAWER_WIDTH,
             },
           }}
           open

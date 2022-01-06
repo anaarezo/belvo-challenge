@@ -21,7 +21,6 @@ export interface IWalletResponse {
 
 const getWallet = async (): Promise<IWalletResponse> => {
   const { data } = await belvoInstance.get(`/wallet`);
-  console.log("getWallet", data);
 
   return data;
 };

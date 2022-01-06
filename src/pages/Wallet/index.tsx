@@ -1,13 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { alpha } from "@mui/material/styles";
-
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-
-import Toolbar from "@mui/material/Toolbar";
-
 import {
   Container,
   Table,
@@ -18,6 +11,9 @@ import {
   Paper,
   Alert,
   Chip,
+  Box,
+  Toolbar,
+  Grid,
 } from "@mui/material";
 
 import { BasicCard, DrawerMenu } from "../../components";
@@ -26,12 +22,9 @@ import * as S from "./styles";
 
 import { getWallet } from "../../services";
 
-interface Props {
-  window?: () => Window;
-}
-
-const Wallet = (props: Props) => {
+const Wallet = () => {
   const navigate = useNavigate();
+
   const [transactions, setTransactions] = useState<any>();
   const [cryptoBalance, setCryptoBalance] = useState<any>();
 
@@ -49,11 +42,9 @@ const Wallet = (props: Props) => {
         .then((response) => {
           setTransactions(response?.transactions);
           setCryptoBalance(response?.balance);
-          console.log("[Info] - GetWallet: ", response);
         })
         .catch((err) => {
           handleOnError("/login");
-          console.log("[Error] - GetWallet: ", err);
         });
     }
   }, [transactions, handleOnError]);
@@ -101,38 +92,38 @@ const Wallet = (props: Props) => {
       sx={{
         display: "flex",
         height: "100%",
-        backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
       }}
     >
-      <CssBaseline />
-
       <DrawerMenu />
-
-      <Box component="main">
-        <Toolbar />
-        <S.Content>
-          <Container maxWidth="lg">
-            <BasicCard balanceCrypto={cryptoBalance} />
-            <Paper>
-              <S.Wrap>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Description</TableCell>
-                      <TableCell>Amount</TableCell>
-                      <TableCell>Currency</TableCell>
-                      <TableCell>From:</TableCell>
-                      <TableCell className="hidden-xs">To:</TableCell>
-                      <TableCell>Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>{renderTransactions()}</TableBody>
-                </Table>
-              </S.Wrap>
-            </Paper>
-          </Container>
-        </S.Content>
-      </Box>
+      <Toolbar />
+      <S.Content>
+        <Box component="main" sx={{ flexGrow: 1, mt: 12 }}>
+          <Grid container>
+            <Container maxWidth="lg">
+              <Grid item sm={8} md={12} lg={12}>
+                <BasicCard balanceCrypto={cryptoBalance} />
+                <Paper>
+                  <S.Wrap>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Description</TableCell>
+                          <TableCell>Amount</TableCell>
+                          <TableCell>Currency</TableCell>
+                          <TableCell>From:</TableCell>
+                          <TableCell>To:</TableCell>
+                          <TableCell>Status</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>{renderTransactions()}</TableBody>
+                    </Table>
+                  </S.Wrap>
+                </Paper>
+              </Grid>
+            </Container>
+          </Grid>
+        </Box>
+      </S.Content>
     </Box>
   );
 };

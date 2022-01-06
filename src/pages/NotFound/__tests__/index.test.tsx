@@ -12,5 +12,7 @@ describe("Render - Page - NotFound", () => {
     expect(getByText("Go back")).toBeTruthy();
   });
 
-  it("should render navigate back to Login Page", () => {});
+  it("should render navigate back to Login Page", () => {
+    //TODO: fireEvent to loginPage
+  });
 });

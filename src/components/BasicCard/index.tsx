@@ -11,7 +11,7 @@ interface IBasicCard {
 }
 
 const BasicCard = ({ balanceCrypto }: IBasicCard) => {
-  console.log("balanceCrypto", balanceCrypto); //TODO: Put mask and Icon per crypto
+  //TODO: Should have Money Mask at cryptos value
   return (
     <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
       <Grid item xs={12} md={4}>

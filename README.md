@@ -18,9 +18,9 @@ Evaluate general front end development skills and capabilities.
     ├── src
     │   ├── assets          # files like images, icons, docs, etc.
     │   ├── components      # Basic common components for building the project
-    │   ├── consts          # Consts to use throughout the project
     │   ├── pages           # Project screens
-    │   │   ├── Contacts
+    │   │   ├── ReceiveCrypto
+    │   │   ├── TransferCrypto
     │   │   ├── Login
     │   │   ├── NotFound
     │   │   └── Wallet

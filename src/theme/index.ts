@@ -1,5 +1,6 @@
 import { colors } from "@material-ui/core";
 
+//TODO: Should have Design System Colors with Belvo Pattern
 export const v1 = {
   myColor: {
     main: colors.blue[500],

@@ -22,7 +22,7 @@ export const authenticate = (token: string): void => {
 
 belvoInstance.interceptors.request.use((req: AxiosRequestConfig) => {
   const info = `${req.method?.toUpperCase()} ${req.baseURL}${req.url}`;
-  console.log("INTERCEPTORS", info, req);
+  console.info("Logger", info);
   return req;
 });
 

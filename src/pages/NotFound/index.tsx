@@ -16,16 +16,16 @@ const NotFound = () => {
           <Box
             sx={{
               mx: "auto",
-              my: 20,
+              mt: 15,
               p: 1,
               borderRadius: 1,
               textAlign: "center",
             }}
           >
-            <Typography component="h1" variant="h1">
+            <Typography component="h1" variant="h3">
               Page not found!!!
             </Typography>
-            <Typography component="h1" variant="h2">
+            <Typography component="h2" variant="h4">
               Go back
             </Typography>
           </Box>

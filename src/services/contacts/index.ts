@@ -7,7 +7,7 @@ export interface IContactResponse {
 
 const getContacts = async (): Promise<IContactResponse[]> => {
   const { data } = await belvoInstance.get(`/contacts`);
-  console.log("Contacts", data);
+
   return data;
 };
 
