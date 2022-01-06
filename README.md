@@ -2,7 +2,10 @@
 
 Evaluate general front end development skills and capabilities.
 
-![belvo](https://user-images.githubusercontent.com/13490305/147601927-9a34fc23-4acb-4415-9b2e-5e355dbc49cc.png)
+| <img width="413" alt="Screen Shot 2022-01-05 at 23 14 01" src="https://user-images.githubusercontent.com/13490305/148320409-9d410b61-aa78-4fc6-8e1c-5fc8dba03fa2.png"> | <img width="414" alt="Screen Shot 2022-01-05 at 23 14 26" src="https://user-images.githubusercontent.com/13490305/148320415-54ca9cee-1719-4799-a67f-8830abebffa5.png"> | <img width="415" alt="Screen Shot 2022-01-05 at 23 15 46" src="https://user-images.githubusercontent.com/13490305/148320416-debdce14-bc6c-4faa-a3c9-0751ab668b4f.png"> |
+| --- | --- | --- |
+| <img width="414" alt="Screen Shot 2022-01-05 at 23 36 06" src="https://user-images.githubusercontent.com/13490305/148320420-60f2c511-340d-4631-a0b0-49e4e19e4f63.png"> | <img width="414" alt="Screen Shot 2022-01-05 at 23 53 14" src="https://user-images.githubusercontent.com/13490305/148320750-637f39c6-aa30-4462-a3d4-06097b5d6607.png"> | <img width="415" alt="Screen Shot 2022-01-05 at 23 48 56" src="https://user-images.githubusercontent.com/13490305/148320421-5d1bc13b-bc95-424e-abd8-100f377d7fb3.png"> |
+
 
 ## Summary
 
@@ -80,5 +83,6 @@ yarn tests
 Ana Laura Arezo
 
 - [LinkedIn](https://www.linkedin.com/in/anaarezo/)
+- [GitHub](https://github.com/anaarezo)
 - [E-mail](mailto:laura.arezo@gmail.com)
-- [Mobile](tel:+5511948997452)
+- 💡 Feel free to contact me if you have difficulties running the project or if you have questions!
